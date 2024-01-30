@@ -1,8 +1,7 @@
-import asyncHandler from "express-async-handler";
-import Chat from "../models/chatModel.js";
-import User from "../models/userModel.js";
+import Chat from "../models/chat.model.js";
+import User from "../models/user.model.js";
 
-const accessChat = asyncHandler(async (req, res) => {
+const accessChat = async (req, res) => {
   const { userId } = req.body;
 
   if (!userId) {
@@ -47,9 +46,9 @@ const accessChat = asyncHandler(async (req, res) => {
       throw new Error(error.message);
     }
   }
-});
+};
 
-const fetchChats = asyncHandler(async (req, res) => {
+const fetchChats = async (req, res) => {
   try {
     Chat.find({ users: { $elemMatch: { $eq: req.user._id } } })
       .populate("users", "-password")
@@ -67,9 +66,9 @@ const fetchChats = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error(error.message);
   }
-});
+};
 
-const createGroupChat = asyncHandler(async (req, res) => {
+const createGroupChat = async (req, res) => {
   if (!req.body.users || !req.body.name) {
     return res.status(400).send({ message: "Please Fill all the feilds" });
   }
@@ -101,9 +100,9 @@ const createGroupChat = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error(error.message);
   }
-});
+};
 
-const renameGroup = asyncHandler(async (req, res) => {
+const renameGroup = async (req, res) => {
   const { chatId, chatName } = req.body;
 
   const updatedChat = await Chat.findByIdAndUpdate(
@@ -124,9 +123,9 @@ const renameGroup = asyncHandler(async (req, res) => {
   } else {
     res.json(updatedChat);
   }
-});
+};
 
-const removeFromGroup = asyncHandler(async (req, res) => {
+const removeFromGroup = async (req, res) => {
   const { chatId, userId } = req.body;
 
   // check if the requester is admin
@@ -149,9 +148,9 @@ const removeFromGroup = asyncHandler(async (req, res) => {
   } else {
     res.json(removed);
   }
-});
+};
 
-const addToGroup = asyncHandler(async (req, res) => {
+const addToGroup = async (req, res) => {
   const { chatId, userId } = req.body;
 
   // check if the requester is admin
@@ -174,7 +173,7 @@ const addToGroup = asyncHandler(async (req, res) => {
   } else {
     res.json(added);
   }
-});
+};
 
 export {
   accessChat,

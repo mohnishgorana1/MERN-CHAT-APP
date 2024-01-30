@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { login } from "../../Redux/authSlice";
+import { toast } from "react-hot-toast";
 
 function Login() {
   const dispatch = useDispatch();
@@ -35,13 +36,16 @@ function Login() {
         // user = response?.data;
         dispatch(login(response?.data));
         console.log("Login Successful");
+        toast.success("Login Successful");
 
-        // navigate('/chats')
+        navigate('/chats')
       } else {
         console.log("Login failed");
+        toast.error("Login failed");
       }
     } catch (error) {
       console.log("Error login", error.message);
+      toast.error("Login failed API ERROR!");
     }
 
     setMyUser({

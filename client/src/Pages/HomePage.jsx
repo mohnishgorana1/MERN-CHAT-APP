@@ -16,7 +16,7 @@ function HomePage() {
     }
   }
   return (
-    <div className="flex flex-col gap-5 items-center justify-center m-5 px-2 py-5 ">
+    <div className="flex flex-col gap-5 items-center justify-center m-5 px-3 py-5 ">
       <div className="w-full sm:w-[60%]  py-3">
         <h1
           className="text-xl sm:text-3xl text-center font-bold cursor-pointer"

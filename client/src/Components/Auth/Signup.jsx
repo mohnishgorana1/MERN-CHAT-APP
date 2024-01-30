@@ -3,10 +3,11 @@ import { login, logout } from "../../Redux/authSlice.js";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react";
 function Signup() {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
-  
+  const navigate = useNavigate();
+
   // const user = useSelector((state) => state.auth.user);
 
   const [myUser, setMyUser] = useState({
@@ -33,15 +34,18 @@ function Signup() {
 
       if (response.status === 201) {
         // user = response?.data;
-        dispatch(login(response?.data))
+        dispatch(login(response?.data));
         console.log("Registration Successful");
+        toast.success("Registration Successful");
 
         // navigate('/chats')
       } else {
         console.log("Registration failed");
+        toast.error("Registration failed");
       }
     } catch (error) {
       console.log("Error register", error.message);
+      toast.error("Registration failed API ERROR!");
     }
 
     setMyUser({
@@ -97,7 +101,6 @@ function Signup() {
           Register
         </button>
       </form>
-
     </div>
   );
 }

@@ -24,6 +24,7 @@ app.use("/ping", (req, res) => {
   });
 });
 
+app.use(morgan())
 // app routes
 
 app.use("/api/user", userRoutes);

@@ -16,6 +16,8 @@ function ChatPage() {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [searchResultDrawer, setSearchResultDrawer] = useState(false);
+  const [isSearchResultDrawerOpen, setIsSearchResultDrawerOpen] =
+    useState(false);
 
   const handleLogout = async () => {
     dispatch(logout());
@@ -27,7 +29,11 @@ function ChatPage() {
     console.log(searchKeyword);
 
     if (!searchKeyword) {
-      toast.error("Please Enter something to search");
+      // toast.error("Please Enter something to search");
+      // setSearchResultDrawer(false);
+      // setSearchKeyword("");
+      // setSearchResult([]);
+      return;
     }
 
     try {
@@ -52,6 +58,12 @@ function ChatPage() {
       console.log("SEARCH USER API ERROR!", error.message);
       toast.error("SEARCH USER API ERROR!");
     }
+  };
+
+  const abortSearch = async () => {
+    setSearchResultDrawer(false);
+    setSearchKeyword("");
+    setSearchResult([]);
   };
 
   return (
@@ -107,14 +119,22 @@ function ChatPage() {
             className="flex items-center w-full mb-2"
             onSubmit={handleUserSearch}
           >
-            <input
-              type="text"
-              placeholder="Search User"
-              className="w-[80%] text-center py-1 border border-primary bg-base-300"
-              value={searchKeyword}
-              name="search"
-              onChange={(e) => setSearchKeyword(e.target.value)}
-            />
+            <div className="w-[80%] flex items-center justify-evenly border border-primary bg-base-300">
+              <input
+                type="text"
+                placeholder="Search User"
+                className="w-[95%] text-center py-1 bg-transparent"
+                value={searchKeyword}
+                name="search"
+                onChange={(e) => setSearchKeyword(e.target.value)}
+              />
+              <button
+                className="py-1 bg-transparent font-bold"
+                onClick={abortSearch}
+              >
+                <IoClose />
+              </button>
+            </div>
             <button
               className="w-[20%] py-1  border bg-white text-black font-semibold hover:scale-105 duration-200 ease-linear"
               type="submit"

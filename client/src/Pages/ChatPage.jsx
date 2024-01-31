@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IoClose } from "react-icons/io5";
 import axios from "axios";
@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { logout } from "../Redux/authSlice";
 import { useNavigate } from "react-router-dom";
 import UserListItem from "../Components/UserListItem";
+import ChatListItems from "../Components/Modals/ChatListItems";
 
 function ChatPage() {
   const dispatch = useDispatch();
@@ -18,6 +19,14 @@ function ChatPage() {
   const [searchResultDrawer, setSearchResultDrawer] = useState(false);
   const [isSearchResultDrawerOpen, setIsSearchResultDrawerOpen] =
     useState(false);
+
+  const [myChats, setMyChats] = useState([]);
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+    },
+  };
 
   const handleLogout = async () => {
     dispatch(logout());
@@ -37,11 +46,6 @@ function ChatPage() {
     }
 
     try {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      };
       const response = await axios.get(
         `/api/user?search=${searchKeyword}`,
         config
@@ -65,6 +69,28 @@ function ChatPage() {
     setSearchKeyword("");
     setSearchResult([]);
   };
+
+  const fetchAllChats = async () => {
+    try {
+      const response = await axios.get("/api/chat", config);
+      console.log(response);
+      if (response.status === 200) {
+        setMyChats(response?.data);
+        toast.success("Chats Fetched");
+        return;
+      } else {
+        return;
+      }
+    } catch (error) {
+      toast.error("Error Fetching All Chats");
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllChats();
+    // return
+  }, []);
 
   return (
     <main className="flex flex-col gap-5 items-center justify-center mt-5 mx-5 px-2 py-1  sm:border-none ">
@@ -151,7 +177,9 @@ function ChatPage() {
           )}
           {/* ALL Chats */}
           <div>
-            
+            {myChats.map((chat, index) => {
+              return <ChatListItems key={index} chat={chat} />;
+            })}
           </div>
         </div>
       )}

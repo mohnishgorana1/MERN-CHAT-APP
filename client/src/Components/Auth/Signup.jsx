@@ -35,6 +35,7 @@ function Signup() {
       if (response.status === 201) {
         // user = response?.data;
         dispatch(login(response?.data));
+        localStorage.setItem('user', JSON.stringify(response?.data))
         console.log("Registration Successful");
         toast.success("Registration Successful");
 

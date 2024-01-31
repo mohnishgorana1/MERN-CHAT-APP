@@ -35,6 +35,7 @@ function Login() {
       if (response.status === 200) {
         // user = response?.data;
         dispatch(login(response?.data));
+        localStorage.setItem('user', JSON.stringify(response?.data))
         console.log("Login Successful");
         toast.success("Login Successful");
 

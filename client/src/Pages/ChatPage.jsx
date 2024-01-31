@@ -123,13 +123,13 @@ function ChatPage() {
               <input
                 type="text"
                 placeholder="Search User"
-                className="w-[95%] text-center py-1 bg-transparent"
+                className="w-[90%] sm:w-[95%] text-center py-1 bg-transparent"
                 value={searchKeyword}
                 name="search"
                 onChange={(e) => setSearchKeyword(e.target.value)}
               />
               <button
-                className="py-1 bg-transparent font-bold"
+                className="w-[12%] sm:w-[5%] py-1 bg-transparent font-bold flex items-center justify-center"
                 onClick={abortSearch}
               >
                 <IoClose />
@@ -150,7 +150,9 @@ function ChatPage() {
             </div>
           )}
           {/* ALL Chats */}
-          <div></div>
+          <div>
+            
+          </div>
         </div>
       )}
     </main>
